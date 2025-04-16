@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(uuid())
+  name            String
+  email           String          @unique
+  password        String
+  bio             String?
+  role            String
+  createdAt       DateTime?
+  offers          Offer[]
+  matchesAsStudent Match[]       @relation("StudentMatches")
+  matchesAsTutor   Match[]       @relation("TutorMatches")
+  sentMessages     Message[]     @relation("SentMessages")
+  receivedMessages Message[]     @relation("ReceivedMessages")
+  reviewsGiven     Review[]      @relation("ReviewsGiven")
+  reviewsReceived  Review[]      @relation("ReviewsReceived")
+  organizedEvents  Event[]
+  eventParticipants EventParticipant[]
+  uploadedFiles    File[]
+  addedResources   Resource[]    @relation("ResourcesAdded")
+  userResourceLogs UserResourceLog[]
+  emotionLabels    EmotionLabel[] @relation("LabelsGiven")
+}
+
+model Subject {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  offers  Offer[]
+  matches Match[]
+  events  Event[]
+  resources Resource[]
+  tags    SubjectTag[]
+}
+
+model Offer {
+  id             String   @id @default(uuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  subject        Subject? @relation(fields: [subjectId], references: [id])
+  subjectId      String?
+  description    String
+  availableDays  String?
+  availableHours String?
+  price          Decimal?
+  createdAt      DateTime?
+}
+
+model Match {
+  id         String   @id @default(uuid())
+  student    User     @relation("StudentMatches", fields: [studentId], references: [id])
+  studentId  String
+  tutor      User     @relation("TutorMatches", fields: [tutorId], references: [id])
+  tutorId    String
+  subject    Subject? @relation(fields: [subjectId], references: [id])
+  subjectId  String?
+  status     String
+  createdAt  DateTime?
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId   String
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId String
+  content    String
+  sentAt     DateTime?
+  emotionLabels EmotionLabel[]
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  reviewer    User     @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewerId  String
+  reviewee    User     @relation("ReviewsReceived", fields: [revieweeId], references: [id])
+  revieweeId  String
+  rating      Int?
+  comment     String?
+  createdAt   DateTime?
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  organizer    User     @relation(fields: [organizerId], references: [id])
+  organizerId  String
+  subject      Subject? @relation(fields: [subjectId], references: [id])
+  subjectId    String?
+  scheduledFor DateTime
+  createdAt    DateTime?
+  participants EventParticipant[]
+}
+
+model EventParticipant {
+  event     Event @relation(fields: [eventId], references: [id])
+  eventId   String
+  user      User  @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@id([eventId, userId])
+}
+
+model File {
+  id         String   @id @default(uuid())
+  uploader   User     @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+  name       String
+  path       String   @unique
+  type       String?
+  size       Int?
+  uploadedAt DateTime?
+  resources  Resource[]
+}
+
+model Resource {
+  id         String   @id @default(uuid())
+  subject    Subject  @relation(fields: [subjectId], references: [id])
+  subjectId  String
+  title      String
+  description String?
+  file       File?    @relation(fields: [fileId], references: [id])
+  fileId     String?
+  addedBy    User?    @relation("ResourcesAdded", fields: [addedById], references: [id])
+  addedById  String?
+  createdAt  DateTime?
+}
+
+model UserResourceLog {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  type       String
+  action     String
+  value      Int
+  createdAt  DateTime?
+}
+
+model Tag {
+  id    String   @id @default(uuid())
+  name  String   @unique
+  type  String?
+  subjects SubjectTag[]
+}
+
+model SubjectTag {
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([subjectId, tagId])
+}
+
+model EmotionLabel {
+  id         String   @id @default(uuid())
+  message    Message  @relation(fields: [messageId], references: [id])
+  messageId  String
+  emotion    String
+  labeledBy  User     @relation("LabelsGiven", fields: [labeledById], references: [id])
+  labeledById String
+  createdAt  DateTime?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
