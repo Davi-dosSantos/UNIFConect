@@ -1,8 +1,8 @@
-# UniConect
+# UNIFConect
 
 ## Resumo do Projeto
 
-O projeto propõe o desenvolvimento da plataforma inovadora chamada UniConect, com o objetivo de facilitar o compartilhamento de conhecimento entre estudantes. A plataforma permitirá que alunos ofereçam aulas ou assistência em diversas disciplinas e habilidades para outros alunos que necessitam de apoio em seus estudos.
+O projeto propõe o desenvolvimento da plataforma inovadora chamada UNIFConect, com o objetivo de facilitar o compartilhamento de conhecimento entre estudantes. A plataforma permitirá que alunos ofereçam aulas ou assistência em diversas disciplinas e habilidades para outros alunos que necessitam de apoio em seus estudos.
 
 ## Principais Funcionalidades
 
@@ -21,7 +21,7 @@ O projeto propõe o desenvolvimento da plataforma inovadora chamada UniConect, c
 
 - **Estímulo ao Aprendizado Colaborativo:**
 
-  - A UniConect promove a cultura de aprendizado entre pares, onde os alunos podem aprender com os colegas de forma interativa e personalizada.
+  - A UNIFConect promove a cultura de aprendizado entre pares, onde os alunos podem aprender com os colegas de forma interativa e personalizada.
 
 - **Flexibilidade de Horários:**
 
@@ -101,7 +101,7 @@ O projeto propõe o desenvolvimento da plataforma inovadora chamada UniConect, c
 
 ---
 
-# To-Do List - Desenvolvimento do Projeto UniConect
+# To-Do List - Desenvolvimento do Projeto UNIFConect
 
 ## Resumo do Projeto
 
