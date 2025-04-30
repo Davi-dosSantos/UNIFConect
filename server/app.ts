@@ -1,6 +1,8 @@
 import Fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
+import { userRoutes } from './routes/userRoutes'
+import { offerRoutes } from './routes/offerRoutes'
 
 export const app = Fastify()
 
@@ -13,10 +15,7 @@ app.register(swagger, {
     },
     tags: [
       { name: 'users' },
-      { name: 'offers' },
-      { name: 'matches' },
-      { name: 'messages' },
-      { name: 'events' }
+      { name: 'offers' }
     ]
   }
 })
@@ -24,3 +23,6 @@ app.register(swagger, {
 app.register(swaggerUI, {
   routePrefix: '/docs'
 })
+
+app.register(userRoutes)
+app.register(offerRoutes)

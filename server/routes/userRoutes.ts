@@ -20,6 +20,6 @@ export async function userRoutes(app: FastifyInstance) {
       }
     }
   }, async () => {
-    return [{ id: '1', name: 'Davi', email: 'davi@unifei.edu.br' }]
+    return [{ id: '1', name: 'João', email: 'joao@example.com' }]
   })
 }
