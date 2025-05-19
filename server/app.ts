@@ -20,6 +20,11 @@ app.register(swagger, {
   }
 })
 
+app.get('/', async (request, reply) => {
+  return { message: 'API UNIFConect está online 🚀' };
+});
+
+
 app.register(swaggerUI, {
   routePrefix: '/docs'
 })

@@ -2,8 +2,8 @@ export class Offer {
   constructor(
     public id: string,
     public userId: string,
-    public subjectId?: string,
     public description: string,
+    public subjectId?: string,
     public availableDays?: string,
     public availableHours?: string,
     public price?: number,

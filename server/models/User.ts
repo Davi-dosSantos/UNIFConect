@@ -4,8 +4,8 @@ export class User {
     public name: string,
     public email: string,
     public password: string,
-    public bio?: string,
     public role: 'student' | 'tutor',
+    public bio?: string,
     public createdAt?: Date
   ) {}
 }
