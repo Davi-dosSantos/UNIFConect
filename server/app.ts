@@ -1,8 +1,8 @@
 import Fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
-import { userRoutes } from './routes/userRoutes'
-import { offerRoutes } from './routes/offerRoutes'
+import { userRoutes } from './routes/user.route'
+import { offerRoutes } from './routes/offer.route'
 
 export const app = Fastify()
 
