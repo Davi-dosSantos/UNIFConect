@@ -1,0 +1,278 @@
+version: "3.8"
+
+services:
+  # --- 1. AuthService ---
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@auth-db:5432/authdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - auth-db
+    networks:
+      - unifconect-net
+
+  auth-db:
+    image: postgres:14-alpine
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authdb
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 2. UserService ---
+  user-service:
+    build: ./user-service
+    ports:
+      - "3002:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@user-db:5432/userdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - user-db
+    networks:
+      - unifconect-net
+
+  user-db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 3. OfferService ---
+  offer-service:
+    build: ./offer-service
+    ports:
+      - "3003:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@offer-db:5432/offerdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - offer-db
+    networks:
+      - unifconect-net
+
+  offer-db:
+    image: postgres:14-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: offerdb
+    volumes:
+      - offer-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 4. MatchService ---
+  match-service:
+    build: ./match-service
+    ports:
+      - "3004:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@match-db:5432/matchdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - match-db
+    networks:
+      - unifconect-net
+
+  match-db:
+    image: postgres:14-alpine
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: matchdb
+    volumes:
+      - match-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 5. MessageService ---
+  message-service:
+    build: ./message-service
+    ports:
+      - "3005:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@message-db:5432/messagedb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - message-db
+    networks:
+      - unifconect-net
+
+  message-db:
+    image: postgres:14-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: messagedb
+    volumes:
+      - message-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 6. ReviewService ---
+  review-service:
+    build: ./review-service
+    ports:
+      - "3006:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@review-db:5432/reviewdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - review-db
+    networks:
+      - unifconect-net
+
+  review-db:
+    image: postgres:14-alpine
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: reviewdb
+    volumes:
+      - review-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 7. EventService ---
+  event-service:
+    build: ./event-service
+    ports:
+      - "3007:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@event-db:5432/eventdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - event-db
+    networks:
+      - unifconect-net
+
+  event-db:
+    image: postgres:14-alpine
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eventdb
+    volumes:
+      - event-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 8. FileService ---
+  file-service:
+    build: ./file-service
+    ports:
+      - "3008:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@file-db:5432/filedb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - file-db
+    networks:
+      - unifconect-net
+
+  file-db:
+    image: postgres:14-alpine
+    ports:
+      - "5438:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: filedb
+    volumes:
+      - file-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 9. ResourceService ---
+  resource-service:
+    build: ./resource-service
+    ports:
+      - "3009:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@resource-db:5432/resourcedb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - resource-db
+    networks:
+      - unifconect-net
+
+  resource-db:
+    image: postgres:14-alpine
+    ports:
+      - "5439:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: resourcedb
+    volumes:
+      - resource-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+  # --- 10. TagService ---
+  tag-service:
+    build: ./tag-service
+    ports:
+      - "3010:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@tag-db:5432/tagdb?schema=public"
+      JWT_SECRET: "${JWT_SECRET}"
+    depends_on:
+      - tag-db
+    networks:
+      - unifconect-net
+
+  tag-db:
+    image: postgres:14-alpine
+    ports:
+      - "5440:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tagdb
+    volumes:
+      - tag-db-data:/var/lib/postgresql/data
+    networks:
+      - unifconect-net
+
+networks:
+  unifconect-net:
+    driver: bridge
+
+volumes:
+  auth-db-data:
+  user-db-data:
+  offer-db-data:
+  match-db-data:
+  message-db-data:
+  review-db-data:
+  event-db-data:
+  file-db-data:
+  resource-db-data:
+  tag-db-data:

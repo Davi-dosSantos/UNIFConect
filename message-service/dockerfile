@@ -1,0 +1,30 @@
+# Estágio de dependências
+FROM node:20-slim AS deps
+WORKDIR /usr/app
+
+COPY package*.json ./
+RUN npm install --frozen-lockfile
+
+# Estágio de build
+FROM node:20-slim AS builder
+WORKDIR /usr/app
+COPY --from=deps /usr/app/node_modules ./node_modules
+COPY . .
+
+RUN npx prisma generate
+RUN npm run build
+
+# Estágio final de produção
+FROM node:20-slim AS production
+WORKDIR /usr/app
+
+ENV NODE_ENV=production
+
+COPY --from=builder /usr/app/dist ./dist
+COPY --from=builder /usr/app/node_modules ./node_modules
+COPY --from=builder /usr/app/prisma ./prisma
+COPY package*.json ./
+
+EXPOSE 3000
+
+CMD ["node", "dist/server.js"]
