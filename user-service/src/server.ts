@@ -8,6 +8,7 @@ import { userSchemas } from './schemas/user.schema';
 const app = fastify({ logger: true });
 
 async function start() {
+  console.log(`[UserService] Usando JWT_SECRET: [${process.env.JWT_SECRET}]`);
   for (const schema of userSchemas) { 
     app.addSchema(schema);
   }

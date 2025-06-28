@@ -1,4 +1,3 @@
-// user-service/prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,12 +8,19 @@ datasource db {
 }
 
 model Profile {
-  id          String  @id @default(uuid())
-  course      String? // Ex: "Engenharia de Computação"
-  institution String? // Ex: "UNIFEI"
+  id          String @id @default(uuid())
+  bio         String?
+  course      String?
+  institution String?
   avatarUrl   String?
+  userId      String @unique
+  interests   ProfileInterestTag[]
 
-  // Chave estrangeira para o usuário no AuthService
-  // Esta é a ligação entre os dois microserviços
-  userId      String  @unique
 }
+  model ProfileInterestTag {
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
+  tagId     String
+   @@id([profileId, tagId])
+}
+
