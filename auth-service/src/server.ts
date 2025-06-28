@@ -5,8 +5,8 @@ import fjwt from '@fastify/jwt';
 // Importações necessárias para o Swagger
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { authRoutes } from './routes/authRoutes';
-import { authSchemas } from './schemas/authSchema';
+import { authRoutes } from './routes/auth.routes';
+import { authSchemas } from './schemas/auth.schema';
 
 const app = fastify({ logger: true });
 

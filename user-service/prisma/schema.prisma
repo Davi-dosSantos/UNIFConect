@@ -1,0 +1,20 @@
+// user-service/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id          String  @id @default(uuid())
+  course      String? // Ex: "Engenharia de Computação"
+  institution String? // Ex: "UNIFEI"
+  avatarUrl   String?
+
+  // Chave estrangeira para o usuário no AuthService
+  // Esta é a ligação entre os dois microserviços
+  userId      String  @unique
+}
